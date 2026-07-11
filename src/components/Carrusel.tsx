@@ -1,22 +1,43 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CarruselItem } from "@/lib/types";
 import { embedInstagram } from "@/lib/instagram";
 
 export default function Carrusel({ items }: { items: CarruselItem[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const idxRef = useRef(0);
+  const [index, setIndex] = useState(0);
+  const [pausado, setPausado] = useState(false);
+
+  const irA = useCallback(
+    (i: number) => {
+      const el = ref.current;
+      if (!el || !items.length) return;
+      const n = (i + items.length) % items.length;
+      const child = el.children[n] as HTMLElement | undefined;
+      if (child) el.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+      idxRef.current = n;
+      setIndex(n);
+    },
+    [items.length],
+  );
+
+  // Autoplay: avanza solo, en loop; se pausa con el mouse encima.
+  useEffect(() => {
+    if (pausado || items.length < 2) return;
+    const t = setInterval(() => irA(idxRef.current + 1), 4500);
+    return () => clearInterval(t);
+  }, [pausado, items.length, irA]);
 
   if (!items.length) return null;
 
-  function scroll(dir: 1 | -1) {
-    const el = ref.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
-  }
-
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => setPausado(true)}
+      onMouseLeave={() => setPausado(false)}
+    >
       <div
         ref={ref}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -82,7 +103,7 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
           <button
             type="button"
             aria-label="Anterior"
-            onClick={() => scroll(-1)}
+            onClick={() => irA(index - 1)}
             className="absolute -left-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper/90 text-ink shadow-md backdrop-blur transition-colors hover:bg-paper md:flex"
           >
             ←
@@ -90,11 +111,26 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
           <button
             type="button"
             aria-label="Siguiente"
-            onClick={() => scroll(1)}
+            onClick={() => irA(index + 1)}
             className="absolute -right-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper/90 text-ink shadow-md backdrop-blur transition-colors hover:bg-paper md:flex"
           >
             →
           </button>
+
+          {/* Puntitos indicadores */}
+          <div className="mt-5 flex justify-center gap-2">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ir al ${i + 1}`}
+                onClick={() => irA(i)}
+                className={`h-2 rounded-full transition-all ${
+                  i === index ? "w-6 bg-verde" : "w-2 bg-line hover:bg-muted"
+                }`}
+              />
+            ))}
+          </div>
         </>
       )}
     </div>

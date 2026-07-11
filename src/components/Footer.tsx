@@ -10,9 +10,18 @@ export default function Footer({ config }: { config: Config }) {
     <footer className="mt-24 border-t border-line bg-paper">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-2">
-          <p className="font-display text-3xl font-semibold text-ink">
-            {config.nombreEmpresa}
-          </p>
+          {config.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={config.logoUrl}
+              alt={config.nombreEmpresa}
+              className="h-12 w-auto"
+            />
+          ) : (
+            <p className="font-display text-3xl font-semibold text-ink">
+              {config.nombreEmpresa}
+            </p>
+          )}
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted">
             {config.claim ?? "Cortinas, diseño y trabajos a medida para tu hogar."}
           </p>

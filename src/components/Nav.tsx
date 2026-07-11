@@ -33,13 +33,24 @@ export default function Nav({ config }: { config: Config }) {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 lg:px-8">
-        <Link href="/" className="group flex items-baseline gap-2">
-          <span className="font-display text-2xl font-semibold tracking-tight text-ink">
-            {config.nombreEmpresa}
-          </span>
-          <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-oro sm:block">
-            Cortinas · Diseño
-          </span>
+        <Link href="/" className="group flex items-center gap-2">
+          {config.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={config.logoUrl}
+              alt={config.nombreEmpresa}
+              className="h-9 w-auto sm:h-10"
+            />
+          ) : (
+            <>
+              <span className="font-display text-2xl font-semibold tracking-tight text-ink">
+                {config.nombreEmpresa}
+              </span>
+              <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-oro sm:block">
+                Cortinas · Diseño
+              </span>
+            </>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

@@ -35,30 +35,47 @@ export default async function Home() {
   return (
     <>
       {/* ---------------- HERO ---------------- */}
-      <section className="relative grano overflow-hidden">
-        <div className="pliegues pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-70" />
+      <section className="relative -mt-[76px] flex min-h-[92vh] items-end overflow-hidden bg-ink">
+        {config.heroImagenUrl && (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={config.heroImagenUrl}
+            alt="Cortinas tradicionales a medida en un living de doble altura"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+        {/* velos de contraste para que el texto se lea sobre la foto */}
         <div
-          className="pointer-events-none absolute -top-1/3 right-0 h-[80vh] w-[80vh] rounded-full opacity-60 blur-3xl"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle, rgba(14,107,98,0.18), transparent 65%)",
+              "linear-gradient(100deg, rgba(18,38,34,0.9) 0%, rgba(18,38,34,0.62) 32%, rgba(18,38,34,0.2) 58%, rgba(18,38,34,0) 80%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-20 pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-28 lg:pt-24">
-          <div>
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+          style={{
+            background: "linear-gradient(to top, rgba(18,38,34,0.75), transparent)",
+          }}
+        />
+
+        <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-36 lg:px-8 lg:pb-24">
+          <div className="max-w-xl">
             <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-oro">
               Cortinas · Diseño · Trabajos a medida
             </p>
             <h1
-              className="subir mt-5 font-display text-5xl font-semibold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl"
+              className="subir mt-5 font-display text-5xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl lg:text-7xl"
               style={{ animationDelay: "0.08s" }}
             >
               La luz de tu casa,
               <br />
-              <span className="italic text-verde">bien vestida.</span>
+              <span className="italic" style={{ color: "#e3c485" }}>
+                bien vestida.
+              </span>
             </h1>
             <p
-              className="subir mt-6 max-w-md text-lg leading-relaxed text-ink-soft"
+              className="subir mt-6 max-w-md text-lg leading-relaxed text-white/85"
               style={{ animationDelay: "0.16s" }}
             >
               {config.descripcion ??
@@ -73,43 +90,20 @@ export default async function Home() {
                   href={wa}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-verde px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-verde-dark"
+                  className="rounded-full bg-white px-7 py-3.5 text-sm font-medium text-ink shadow-lg shadow-black/10 transition-colors hover:bg-bone"
                 >
                   Pedí tu presupuesto
                 </a>
               )}
               <Link
                 href="/trabajos"
-                className="group inline-flex items-center gap-2 rounded-full border border-ink/15 px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/40"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white/10"
               >
                 Ver trabajos
                 <span className="transition-transform group-hover:translate-x-1">
                   →
                 </span>
               </Link>
-            </div>
-          </div>
-
-          {/* Tarjeta decorativa: pliegues de tela */}
-          <div
-            className="subir relative hidden lg:block"
-            style={{ animationDelay: "0.3s" }}
-          >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-line bg-paper shadow-xl shadow-black/5">
-              <div className="pliegues absolute inset-0 opacity-90" />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(244,239,230,0) 40%, rgba(14,107,98,0.14) 100%)",
-                }}
-              />
-              <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-paper/80 p-5 backdrop-blur-sm">
-                <p className="font-display text-xl text-ink">A medida, sin apuro</p>
-                <p className="mt-1 text-sm text-muted">
-                  Medición a domicilio y asesoramiento personalizado.
-                </p>
-              </div>
             </div>
           </div>
         </div>

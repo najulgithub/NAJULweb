@@ -41,12 +41,12 @@ export default async function Home() {
           className="pointer-events-none absolute -top-1/3 right-0 h-[80vh] w-[80vh] rounded-full opacity-60 blur-3xl"
           style={{
             background:
-              "radial-gradient(circle, rgba(55,83,63,0.20), transparent 65%)",
+              "radial-gradient(circle, rgba(14,107,98,0.18), transparent 65%)",
           }}
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-20 pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-28 lg:pt-24">
           <div>
-            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-verde">
+            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-oro">
               Cortinas · Diseño · Trabajos a medida
             </p>
             <h1
@@ -101,7 +101,7 @@ export default async function Home() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(244,239,230,0) 40%, rgba(55,83,63,0.16) 100%)",
+                    "linear-gradient(180deg, rgba(244,239,230,0) 40%, rgba(14,107,98,0.14) 100%)",
                 }}
               />
               <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-paper/80 p-5 backdrop-blur-sm">
@@ -119,7 +119,7 @@ export default async function Home() {
       <section id="trabajos" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">
+            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
               Qué hacemos
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
@@ -162,7 +162,7 @@ export default async function Home() {
       <section className="relative overflow-hidden bg-ink text-bone">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 px-5 py-20 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div className="max-w-xl">
-            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">
+            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
               Recomendador
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
@@ -184,7 +184,7 @@ export default async function Home() {
 
       {/* ---------------- PROCESO ---------------- */}
       <section id="proceso" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
-        <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">
+        <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
           Cómo trabajamos
         </p>
         <h2 className="mt-3 max-w-2xl font-display text-4xl font-semibold text-ink sm:text-5xl">

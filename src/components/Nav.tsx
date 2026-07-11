@@ -37,7 +37,7 @@ export default function Nav({ config }: { config: Config }) {
           <span className="font-display text-2xl font-semibold tracking-tight text-ink">
             {config.nombreEmpresa}
           </span>
-          <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-verde sm:block">
+          <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-oro sm:block">
             Cortinas · Diseño
           </span>
         </Link>

@@ -18,7 +18,7 @@ export default async function RecomendadorPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 lg:px-8">
-      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">
+      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
         Recomendador
       </p>
       <h1 className="mt-3 font-display text-5xl font-semibold text-ink">

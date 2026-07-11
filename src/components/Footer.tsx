@@ -19,7 +19,7 @@ export default function Footer({ config }: { config: Config }) {
         </div>
 
         <div>
-          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-verde">
+          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-oro">
             Contacto
           </p>
           <ul className="mt-4 space-y-2 text-sm text-ink-soft">
@@ -48,7 +48,7 @@ export default function Footer({ config }: { config: Config }) {
         </div>
 
         <div>
-          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-verde">
+          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-oro">
             Explorar
           </p>
           <ul className="mt-4 space-y-2 text-sm text-ink-soft">

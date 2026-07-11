@@ -17,7 +17,7 @@ export default async function TrabajosPage({
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
-      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">Galería</p>
+      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">Galería</p>
       <h1 className="mt-3 font-display text-5xl font-semibold text-ink">
         Trabajos realizados
       </h1>

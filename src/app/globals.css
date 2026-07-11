@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta — marfil + verde bosque (rebranding Najul Textiles) */
-  --color-bone: #f4efe6;
-  --color-paper: #fbf8f1;
-  --color-ink: #1f271f;
-  --color-ink-soft: #45503f;
-  --color-muted: #7c8177;
-  --color-line: #e3ddce;
-  --color-verde: #37533f;
-  --color-verde-dark: #26392c;
+  /* Paleta oficial Najul Textiles — teal (NAJUL) + dorado (TEXTILES) sobre marfil */
+  --color-bone: #f5f1e9;
+  --color-paper: #fcf9f3;
+  --color-ink: #16302c;
+  --color-ink-soft: #3f5450;
+  --color-muted: #7d857f;
+  --color-line: #e4ddd0;
+  --color-verde: #0e6b62; /* teal del logo — acento principal */
+  --color-verde-dark: #0a4f48;
+  --color-oro: #b8923f; /* dorado de "TEXTILES" — acento secundario */
+  --color-oro-dark: #9a7830;
   --color-olive: #7a7f56;
 
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
@@ -53,7 +55,7 @@ body {
     90deg,
     rgba(255, 255, 255, 0) 0px,
     rgba(255, 255, 255, 0.5) 14px,
-    rgba(55, 83, 63, 0.06) 28px,
+    rgba(14, 107, 98, 0.06) 28px,
     rgba(255, 255, 255, 0) 46px
   );
 }

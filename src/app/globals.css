@@ -10,8 +10,8 @@
   --color-line: #e4ddd0;
   --color-verde: #0e6b62; /* teal del logo — acento principal */
   --color-verde-dark: #0a4f48;
-  --color-oro: #b8923f; /* dorado de "TEXTILES" — acento secundario */
-  --color-oro-dark: #9a7830;
+  --color-oro: #c69518; /* dorado de "TEXTILES" — acento secundario, más intenso */
+  --color-oro-dark: #a67c12;
   --color-olive: #7a7f56;
 
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;

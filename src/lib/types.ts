@@ -50,6 +50,16 @@ export interface Config {
   heroImagenUrl?: string | null;
 }
 
+export type TipoCarrusel = "foto" | "reel";
+
+export interface CarruselItem {
+  id: string;
+  tipo: TipoCarrusel;
+  url: string;
+  titulo?: string | null;
+  orden: number;
+}
+
 export const ETIQUETA_EJE: Record<EjeCategoria, string> = {
   espacio: "Espacio",
   tipo_trabajo: "Tipo de trabajo",

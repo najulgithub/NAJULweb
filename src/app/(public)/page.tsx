@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getConfig, getCategorias } from "@/lib/datos";
+import { getConfig, getCategorias, getCarrusel } from "@/lib/datos";
 import { linkWhatsapp } from "@/lib/wa";
+import Carrusel from "@/components/Carrusel";
 
 const PROCESO = [
   {
@@ -26,9 +27,10 @@ const PROCESO = [
 ];
 
 export default async function Home() {
-  const [config, tipos] = await Promise.all([
+  const [config, tipos, carrusel] = await Promise.all([
     getConfig(),
     getCategorias("tipo_trabajo"),
+    getCarrusel(),
   ]);
   const wa = linkWhatsapp(config.whatsapp, config.whatsappMensaje);
 
@@ -106,6 +108,21 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ---------------- CARRUSEL (fotos + reels) ---------------- */}
+      {carrusel.length > 0 && (
+        <section className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
+          <div className="mb-8">
+            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
+              Nuestro trabajo
+            </p>
+            <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
+              Ambientes que vestimos
+            </h2>
+          </div>
+          <Carrusel items={carrusel} />
+        </section>
+      )}
 
       {/* ---------------- TIPOS DE TRABAJO ---------------- */}
       <section id="trabajos" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">

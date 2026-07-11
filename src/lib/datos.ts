@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
-import type { Categoria, Config, EjeCategoria, Trabajo } from "./types";
+import type { Categoria, Config, EjeCategoria, Trabajo, CarruselItem } from "./types";
 
 // Cliente de lectura para Server Components (anon key; RLS deja leer lo publicado).
 function sb() {
@@ -53,6 +53,15 @@ export const getCategorias = cache(async (eje?: EjeCategoria): Promise<Categoria
   if (eje) q = q.eq("eje", eje);
   const { data } = await q;
   return (data ?? []).map(categoriaDe);
+});
+
+export const getCarrusel = cache(async (): Promise<CarruselItem[]> => {
+  const { data } = await sb()
+    .from("carrusel_items")
+    .select("id, tipo, url, titulo, orden")
+    .eq("activo", true)
+    .order("orden");
+  return (data ?? []) as CarruselItem[];
 });
 
 export const getTrabajos = cache(async (): Promise<Trabajo[]> => {

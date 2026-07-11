@@ -44,24 +44,24 @@ export default async function Home() {
             className="absolute inset-0 h-full w-full object-cover"
           />
         )}
-        {/* velos de contraste para que el texto se lea sobre la foto */}
+        {/* degradé azul→verde de marca sobre la foto (contraste fuerte para el texto) */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(100deg, rgba(18,38,34,0.9) 0%, rgba(18,38,34,0.62) 32%, rgba(18,38,34,0.2) 58%, rgba(18,38,34,0) 80%)",
+              "linear-gradient(118deg, rgba(8,52,72,0.94) 0%, rgba(10,72,78,0.82) 30%, rgba(14,102,95,0.5) 56%, rgba(14,107,98,0.14) 80%, rgba(14,107,98,0) 100%)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
           style={{
-            background: "linear-gradient(to top, rgba(18,38,34,0.75), transparent)",
+            background: "linear-gradient(to top, rgba(8,44,58,0.78), transparent)",
           }}
         />
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-36 lg:px-8 lg:pb-24">
-          <div className="max-w-xl">
-            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-oro">
+          <div className="max-w-xl [text-shadow:0_2px_20px_rgba(3,26,32,0.4)]">
+            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-[#e8cd92]">
               Cortinas · Diseño · Trabajos a medida
             </p>
             <h1

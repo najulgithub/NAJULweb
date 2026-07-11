@@ -61,7 +61,7 @@ export default async function Home() {
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-36 lg:px-8 lg:pb-24">
           <div className="max-w-xl [text-shadow:0_2px_20px_rgba(3,26,32,0.4)]">
-            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-[#f0c33a]">
+            <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-[#eab62c]">
               Cortinas · Diseño · Trabajos a medida
             </p>
             <h1
@@ -70,9 +70,7 @@ export default async function Home() {
             >
               La luz de tu casa,
               <br />
-              <span className="italic" style={{ color: "#e3c485" }}>
-                bien vestida.
-              </span>
+              <span className="italic text-[#eab62c]">bien vestida.</span>
             </h1>
             <p
               className="subir mt-6 max-w-md text-lg leading-relaxed text-white/85"

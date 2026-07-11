@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta — lino cálido + terracota */
+  --color-bone: #f3ece1;
+  --color-paper: #fbf7ef;
+  --color-ink: #221e1a;
+  --color-ink-soft: #4b433b;
+  --color-muted: #837a6d;
+  --color-line: #e4dac9;
+  --color-clay: #c0663f;
+  --color-clay-dark: #9e4e2c;
+  --color-olive: #5f6650;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-clay);
+  color: #fff;
+}
+
+/* Caída de tela: pliegues verticales suaves para el hero */
+.pliegues {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0px,
+    rgba(255, 255, 255, 0.5) 14px,
+    rgba(150, 120, 90, 0.06) 28px,
+    rgba(255, 255, 255, 0) 46px
+  );
+}
+
+/* Grano sutil */
+.grano::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
+}
+
+/* Entrada escalonada al cargar */
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.subir {
+  animation: subir 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subir {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

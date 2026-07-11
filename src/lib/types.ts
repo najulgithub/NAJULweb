@@ -1,0 +1,58 @@
+// Tipos del dominio (app usa camelCase; la base usa snake_case — ver mappers en datos.ts)
+
+export type EjeCategoria = "espacio" | "tipo_trabajo" | "estilo" | "preferencia_luz";
+
+export type TipoImagen = "portada" | "antes" | "despues" | "galeria";
+
+export interface Categoria {
+  id: string;
+  eje: EjeCategoria;
+  nombre: string;
+  slug: string;
+  descripcion?: string | null;
+  icono?: string | null;
+  orden: number;
+}
+
+export interface TrabajoImagen {
+  id: string;
+  url: string;
+  tipo: TipoImagen;
+  alt?: string | null;
+  orden: number;
+}
+
+export interface Trabajo {
+  id: string;
+  titulo: string;
+  slug: string;
+  resumen?: string | null;
+  descripcion?: string | null;
+  ubicacion?: string | null;
+  destacado: boolean;
+  orden: number;
+  imagenes: TrabajoImagen[];
+  categoriaIds: string[];
+}
+
+export interface Config {
+  nombreEmpresa: string;
+  claim?: string | null;
+  descripcion?: string | null;
+  whatsapp?: string | null;
+  whatsappMensaje?: string | null;
+  email?: string | null;
+  direccion?: string | null;
+  horarios?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  logoUrl?: string | null;
+  heroImagenUrl?: string | null;
+}
+
+export const ETIQUETA_EJE: Record<EjeCategoria, string> = {
+  espacio: "Espacio",
+  tipo_trabajo: "Tipo de trabajo",
+  estilo: "Estilo",
+  preferencia_luz: "Preferencia de luz",
+};

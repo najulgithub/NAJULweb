@@ -37,7 +37,7 @@ export default function Nav({ config }: { config: Config }) {
           <span className="font-display text-2xl font-semibold tracking-tight text-ink">
             {config.nombreEmpresa}
           </span>
-          <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-clay sm:block">
+          <span className="hidden text-[0.7rem] uppercase tracking-[0.28em] text-verde sm:block">
             Cortinas · Diseño
           </span>
         </Link>
@@ -47,7 +47,7 @@ export default function Nav({ config }: { config: Config }) {
             <Link
               key={l.href}
               href={l.href}
-              className="relative text-sm text-ink-soft transition-colors hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-clay after:transition-all hover:after:w-full"
+              className="relative text-sm text-ink-soft transition-colors hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-verde after:transition-all hover:after:w-full"
             >
               {l.label}
             </Link>
@@ -57,7 +57,7 @@ export default function Nav({ config }: { config: Config }) {
               href={wa}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-clay px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-clay-dark"
+              className="rounded-full bg-verde px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-verde-dark"
             >
               Pedí presupuesto
             </a>
@@ -109,7 +109,7 @@ export default function Nav({ config }: { config: Config }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setAbierto(false)}
-                className="mt-2 rounded-full bg-clay px-5 py-3 text-center text-base font-medium text-white"
+                className="mt-2 rounded-full bg-verde px-5 py-3 text-center text-base font-medium text-white"
               >
                 Pedí presupuesto
               </a>

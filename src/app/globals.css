@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta — lino cálido + terracota */
-  --color-bone: #f3ece1;
-  --color-paper: #fbf7ef;
-  --color-ink: #221e1a;
-  --color-ink-soft: #4b433b;
-  --color-muted: #837a6d;
-  --color-line: #e4dac9;
-  --color-clay: #c0663f;
-  --color-clay-dark: #9e4e2c;
-  --color-olive: #5f6650;
+  /* Paleta — marfil + verde bosque (rebranding Najul Textiles) */
+  --color-bone: #f4efe6;
+  --color-paper: #fbf8f1;
+  --color-ink: #1f271f;
+  --color-ink-soft: #45503f;
+  --color-muted: #7c8177;
+  --color-line: #e3ddce;
+  --color-verde: #37533f;
+  --color-verde-dark: #26392c;
+  --color-olive: #7a7f56;
 
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
   --font-body: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
@@ -29,7 +29,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-clay);
+  background: var(--color-verde);
   color: #fff;
 }
 
@@ -44,7 +44,7 @@ body {
   outline: none;
 }
 .input:focus {
-  border-color: var(--color-clay);
+  border-color: var(--color-verde);
 }
 
 /* Caída de tela: pliegues verticales suaves para el hero */
@@ -53,7 +53,7 @@ body {
     90deg,
     rgba(255, 255, 255, 0) 0px,
     rgba(255, 255, 255, 0.5) 14px,
-    rgba(150, 120, 90, 0.06) 28px,
+    rgba(55, 83, 63, 0.06) 28px,
     rgba(255, 255, 255, 0) 46px
   );
 }

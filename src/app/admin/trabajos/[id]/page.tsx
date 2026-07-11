@@ -278,7 +278,7 @@ export default function EditorTrabajo() {
         <div className="mt-4 space-y-5">
           {EJES.map((eje) => (
             <div key={eje}>
-              <p className="text-xs uppercase tracking-wide text-clay">{ETIQUETA_EJE[eje]}</p>
+              <p className="text-xs uppercase tracking-wide text-verde">{ETIQUETA_EJE[eje]}</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {(porEje[eje] ?? []).map((c) => {
                   const on = seleccion.has(c.id);
@@ -289,8 +289,8 @@ export default function EditorTrabajo() {
                       onClick={() => toggle(c.id)}
                       className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
                         on
-                          ? "border-clay bg-clay text-white"
-                          : "border-line text-ink-soft hover:border-clay/40"
+                          ? "border-verde bg-verde text-white"
+                          : "border-line text-ink-soft hover:border-verde/40"
                       }`}
                     >
                       {c.nombre}
@@ -306,7 +306,7 @@ export default function EditorTrabajo() {
       {/* Imágenes */}
       <div className="mt-10">
         <h2 className="font-display text-xl text-ink">Imágenes</h2>
-        <label className="mt-3 inline-block cursor-pointer rounded-full border border-line px-5 py-2.5 text-sm text-ink-soft hover:border-clay/40">
+        <label className="mt-3 inline-block cursor-pointer rounded-full border border-line px-5 py-2.5 text-sm text-ink-soft hover:border-verde/40">
           {subiendo ? "Subiendo…" : "+ Agregar fotos"}
           <input
             type="file"
@@ -341,7 +341,7 @@ export default function EditorTrabajo() {
                   <button
                     type="button"
                     onClick={() => quitarImagen(i)}
-                    className="rounded-lg px-3 py-1.5 text-sm text-muted hover:text-clay-dark"
+                    className="rounded-lg px-3 py-1.5 text-sm text-muted hover:text-verde-dark"
                   >
                     Quitar
                   </button>
@@ -357,11 +357,11 @@ export default function EditorTrabajo() {
         <button
           type="submit"
           disabled={guardando || subiendo}
-          className="rounded-full bg-clay px-7 py-2.5 text-sm font-medium text-white hover:bg-clay-dark disabled:opacity-60"
+          className="rounded-full bg-verde px-7 py-2.5 text-sm font-medium text-white hover:bg-verde-dark disabled:opacity-60"
         >
           {guardando ? "Guardando…" : "Guardar trabajo"}
         </button>
-        {msg && <span className="text-sm text-clay-dark">{msg}</span>}
+        {msg && <span className="text-sm text-verde-dark">{msg}</span>}
       </div>
     </form>
   );

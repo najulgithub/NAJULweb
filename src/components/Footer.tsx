@@ -19,7 +19,7 @@ export default function Footer({ config }: { config: Config }) {
         </div>
 
         <div>
-          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-clay">
+          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-verde">
             Contacto
           </p>
           <ul className="mt-4 space-y-2 text-sm text-ink-soft">
@@ -27,7 +27,7 @@ export default function Footer({ config }: { config: Config }) {
             {config.horarios && <li>{config.horarios}</li>}
             {config.email && (
               <li>
-                <a className="hover:text-clay" href={`mailto:${config.email}`}>
+                <a className="hover:text-verde" href={`mailto:${config.email}`}>
                   {config.email}
                 </a>
               </li>
@@ -35,7 +35,7 @@ export default function Footer({ config }: { config: Config }) {
             {wa && (
               <li>
                 <a
-                  className="hover:text-clay"
+                  className="hover:text-verde"
                   href={wa}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -48,24 +48,24 @@ export default function Footer({ config }: { config: Config }) {
         </div>
 
         <div>
-          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-clay">
+          <p className="text-[0.7rem] uppercase tracking-[0.24em] text-verde">
             Explorar
           </p>
           <ul className="mt-4 space-y-2 text-sm text-ink-soft">
             <li>
-              <Link className="hover:text-clay" href="/trabajos">
+              <Link className="hover:text-verde" href="/trabajos">
                 Trabajos realizados
               </Link>
             </li>
             <li>
-              <Link className="hover:text-clay" href="/recomendador">
+              <Link className="hover:text-verde" href="/recomendador">
                 Recomendador
               </Link>
             </li>
             {config.instagram && (
               <li>
                 <a
-                  className="hover:text-clay"
+                  className="hover:text-verde"
                   href={config.instagram}
                   target="_blank"
                   rel="noopener noreferrer"

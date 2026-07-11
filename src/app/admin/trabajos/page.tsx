@@ -56,7 +56,7 @@ export default function TrabajosAdmin() {
         </div>
         <Link
           href="/admin/trabajos/nuevo"
-          className="rounded-full bg-clay px-5 py-2.5 text-sm font-medium text-white hover:bg-clay-dark"
+          className="rounded-full bg-verde px-5 py-2.5 text-sm font-medium text-white hover:bg-verde-dark"
         >
           + Nuevo trabajo
         </Link>
@@ -85,7 +85,7 @@ export default function TrabajosAdmin() {
                   <p className="truncate font-medium text-ink">{f.titulo}</p>
                   <div className="mt-1 flex gap-2 text-xs">
                     {f.destacado && (
-                      <span className="rounded-full bg-clay/10 px-2 py-0.5 text-clay">
+                      <span className="rounded-full bg-verde/10 px-2 py-0.5 text-verde">
                         Destacado
                       </span>
                     )}
@@ -102,13 +102,13 @@ export default function TrabajosAdmin() {
                 </div>
                 <Link
                   href={`/admin/trabajos/${f.id}`}
-                  className="rounded-full border border-line px-4 py-1.5 text-sm text-ink-soft hover:border-clay/40 hover:text-ink"
+                  className="rounded-full border border-line px-4 py-1.5 text-sm text-ink-soft hover:border-verde/40 hover:text-ink"
                 >
                   Editar
                 </Link>
                 <button
                   onClick={() => eliminar(f)}
-                  className="rounded-full px-3 py-1.5 text-sm text-muted hover:text-clay-dark"
+                  className="rounded-full px-3 py-1.5 text-sm text-muted hover:text-verde-dark"
                 >
                   Eliminar
                 </button>

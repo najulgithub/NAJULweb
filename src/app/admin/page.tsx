@@ -27,24 +27,24 @@ export default function AdminInicio() {
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <Link
           href="/admin/trabajos"
-          className="rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-clay/40"
+          className="rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-verde/40"
         >
           <p className="text-sm text-muted">Trabajos publicados</p>
           <p className="mt-2 font-display text-4xl text-ink">
             {trabajos ?? "—"}
           </p>
-          <p className="mt-4 text-sm text-clay">Gestionar trabajos →</p>
+          <p className="mt-4 text-sm text-verde">Gestionar trabajos →</p>
         </Link>
 
         <Link
           href="/admin/config"
-          className="rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-clay/40"
+          className="rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-verde/40"
         >
           <p className="text-sm text-muted">Categorías</p>
           <p className="mt-2 font-display text-4xl text-ink">
             {categorias ?? "—"}
           </p>
-          <p className="mt-4 text-sm text-clay">Editar configuración →</p>
+          <p className="mt-4 text-sm text-verde">Editar configuración →</p>
         </Link>
       </div>
     </div>

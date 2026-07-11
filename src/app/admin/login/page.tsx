@@ -45,7 +45,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="mt-1 w-full rounded-lg border border-line bg-bone px-3 py-2.5 text-ink outline-none focus:border-clay"
+              className="mt-1 w-full rounded-lg border border-line bg-bone px-3 py-2.5 text-ink outline-none focus:border-verde"
             />
           </div>
           <div>
@@ -56,14 +56,14 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="mt-1 w-full rounded-lg border border-line bg-bone px-3 py-2.5 text-ink outline-none focus:border-clay"
+              className="mt-1 w-full rounded-lg border border-line bg-bone px-3 py-2.5 text-ink outline-none focus:border-verde"
             />
           </div>
-          {error && <p className="text-sm text-clay-dark">{error}</p>}
+          {error && <p className="text-sm text-verde-dark">{error}</p>}
           <button
             type="submit"
             disabled={cargando}
-            className="w-full rounded-full bg-clay py-3 text-sm font-medium text-white transition-colors hover:bg-clay-dark disabled:opacity-60"
+            className="w-full rounded-full bg-verde py-3 text-sm font-medium text-white transition-colors hover:bg-verde-dark disabled:opacity-60"
           >
             {cargando ? "Ingresando…" : "Ingresar"}
           </button>

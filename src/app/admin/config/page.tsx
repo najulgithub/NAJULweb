@@ -102,13 +102,13 @@ export default function ConfigPage() {
                 value={campos[k]}
                 onChange={(e) => set(k, e.target.value)}
                 rows={3}
-                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-clay"
+                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
               />
             ) : (
               <input
                 value={campos[k]}
                 onChange={(e) => set(k, e.target.value)}
-                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-clay"
+                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
               />
             )}
           </div>
@@ -118,7 +118,7 @@ export default function ConfigPage() {
           <button
             type="submit"
             disabled={guardando}
-            className="rounded-full bg-clay px-7 py-2.5 text-sm font-medium text-white hover:bg-clay-dark disabled:opacity-60"
+            className="rounded-full bg-verde px-7 py-2.5 text-sm font-medium text-white hover:bg-verde-dark disabled:opacity-60"
           >
             {guardando ? "Guardando…" : "Guardar cambios"}
           </button>

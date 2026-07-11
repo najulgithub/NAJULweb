@@ -17,7 +17,7 @@ export default async function TrabajosPage({
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
-      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-clay">Galería</p>
+      <p className="text-[0.72rem] uppercase tracking-[0.3em] text-verde">Galería</p>
       <h1 className="mt-3 font-display text-5xl font-semibold text-ink">
         Trabajos realizados
       </h1>
@@ -31,8 +31,8 @@ export default async function TrabajosPage({
           href="/trabajos"
           className={`rounded-full border px-4 py-2 text-sm transition-colors ${
             !tipo
-              ? "border-clay bg-clay text-white"
-              : "border-line text-ink-soft hover:border-clay/40"
+              ? "border-verde bg-verde text-white"
+              : "border-line text-ink-soft hover:border-verde/40"
           }`}
         >
           Todos
@@ -43,8 +43,8 @@ export default async function TrabajosPage({
             href={`/trabajos?tipo=${t.slug}`}
             className={`rounded-full border px-4 py-2 text-sm transition-colors ${
               tipo === t.slug
-                ? "border-clay bg-clay text-white"
-                : "border-line text-ink-soft hover:border-clay/40"
+                ? "border-verde bg-verde text-white"
+                : "border-line text-ink-soft hover:border-verde/40"
             }`}
           >
             {t.nombre}

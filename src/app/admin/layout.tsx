@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     key={n.href}
                     href={n.href}
                     className={`text-sm transition-colors ${
-                      activo ? "text-clay" : "text-ink-soft hover:text-ink"
+                      activo ? "text-verde" : "text-ink-soft hover:text-ink"
                     }`}
                   >
                     {n.label}
@@ -85,7 +85,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
             <button
               onClick={salir}
-              className="rounded-full border border-line px-4 py-1.5 text-sm text-ink-soft hover:border-clay/40 hover:text-ink"
+              className="rounded-full border border-line px-4 py-1.5 text-sm text-ink-soft hover:border-verde/40 hover:text-ink"
             >
               Salir
             </button>

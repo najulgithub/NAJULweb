@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Fraunces, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { getConfig } from "@/lib/datos";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import BotonWhatsapp from "@/components/BotonWhatsapp";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -31,22 +28,15 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const config = await getConfig();
-
   return (
     <html
       lang="es"
       className={`${fraunces.variable} ${hanken.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <Nav config={config} />
-        <main className="flex-1">{children}</main>
-        <Footer config={config} />
-        <BotonWhatsapp config={config} />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

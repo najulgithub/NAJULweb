@@ -4,7 +4,7 @@
 -- Público lee lo activo; admin escribe.
 -- ==========================================================================
 
-create type public.tipo_carrusel as enum ('foto', 'reel');
+create type public.tipo_carrusel as enum ('foto', 'reel', 'video');
 
 create table if not exists public.carrusel_items (
   id         uuid primary key default gen_random_uuid(),

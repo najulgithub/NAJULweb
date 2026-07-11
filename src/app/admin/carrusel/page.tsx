@@ -28,7 +28,10 @@ export default function CarruselAdmin() {
     cargar();
   }, [cargar]);
 
-  async function agregarFoto(e: React.ChangeEvent<HTMLInputElement>) {
+  async function subirArchivos(
+    e: React.ChangeEvent<HTMLInputElement>,
+    tipo: "foto" | "video",
+  ) {
     const files = Array.from(e.target.files ?? []);
     e.target.value = "";
     if (!files.length) return;
@@ -37,7 +40,7 @@ export default function CarruselAdmin() {
       let orden = items.length;
       for (const f of files) {
         const { url } = await subirImagen(f);
-        await supabase.from("carrusel_items").insert({ tipo: "foto", url, orden: orden++ });
+        await supabase.from("carrusel_items").insert({ tipo, url, orden: orden++ });
       }
       await cargar();
     } catch (err) {
@@ -100,12 +103,23 @@ export default function CarruselAdmin() {
       {/* Agregar */}
       <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-paper p-4">
         <label className="cursor-pointer rounded-full bg-verde px-5 py-2.5 text-sm font-medium text-white hover:bg-verde-dark">
-          {subiendo ? "Subiendo…" : "+ Subir foto(s)"}
+          {subiendo ? "Subiendo…" : "+ Foto(s)"}
           <input
             type="file"
             accept="image/*"
             multiple
-            onChange={agregarFoto}
+            onChange={(e) => subirArchivos(e, "foto")}
+            disabled={subiendo}
+            className="hidden"
+          />
+        </label>
+        <label className="cursor-pointer rounded-full bg-verde px-5 py-2.5 text-sm font-medium text-white hover:bg-verde-dark">
+          {subiendo ? "Subiendo…" : "+ Video(s)"}
+          <input
+            type="file"
+            accept="video/*"
+            multiple
+            onChange={(e) => subirArchivos(e, "video")}
             disabled={subiendo}
             className="hidden"
           />
@@ -146,6 +160,8 @@ export default function CarruselAdmin() {
                 {it.tipo === "foto" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={it.url} alt="" className="h-full w-full object-cover" />
+                ) : it.tipo === "video" ? (
+                  <video src={it.url} muted className="h-full w-full object-cover" preload="metadata" />
                 ) : (
                   <span className="text-center text-xs font-medium text-verde">
                     ▶ Reel

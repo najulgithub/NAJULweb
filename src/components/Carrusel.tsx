@@ -39,6 +39,23 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
                     scrolling="no"
                   />
                 </div>
+              ) : it.tipo === "video" ? (
+                <>
+                  <video
+                    src={it.url}
+                    className="h-full w-auto max-w-none object-cover"
+                    controls
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  />
+                  {it.titulo && (
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-4">
+                      <p className="text-sm font-medium text-white">{it.titulo}</p>
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -2,38 +2,30 @@
 
 import { supabase } from "./supabase";
 
-// Sube una imagen vía el route handler server-side (service_role).
-export async function subirImagen(file: File): Promise<{ url: string; path: string }> {
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  if (!token) throw new Error("Sesión expirada");
+const BUCKET = "trabajos";
 
-  const form = new FormData();
-  form.append("file", file);
-  const res = await fetch("/api/admin/subir", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-    body: form,
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Error al subir");
-  return json;
+// Sube un archivo (imagen o video) directo a Supabase Storage desde el navegador.
+// Directo (no vía route handler) para no chocar con el límite de tamaño de la
+// función serverless de Vercel — necesario para videos. La escritura la habilita
+// la policy de Storage para usuarios autenticados (ver migracion-004).
+export async function subirImagen(file: File): Promise<{ url: string; path: string }> {
+  const ext = (file.name.split(".").pop() || "bin").toLowerCase();
+  const path = `carrusel/${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { contentType: file.type || undefined, upsert: false });
+  if (error) throw new Error(error.message);
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  return { url: data.publicUrl, path };
 }
 
-// Borra una imagen del Storage a partir de su URL pública.
+// Borra un archivo del Storage a partir de su URL pública.
 export async function borrarImagenPorUrl(url: string): Promise<void> {
-  const marca = "/object/public/trabajos/";
+  const marca = `/object/public/${BUCKET}/`;
   const i = url.indexOf(marca);
-  if (i === -1) return; // no es una URL de nuestro bucket
-  const path = url.slice(i + marca.length);
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  if (!token) return;
-  await fetch("/api/admin/subir", {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ path }),
-  });
+  if (i === -1) return;
+  const path = url.slice(i + marca.length).split("?")[0];
+  await supabase.storage.from(BUCKET).remove([path]);
 }
 
 // Slug simple a partir de un texto.

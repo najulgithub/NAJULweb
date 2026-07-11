@@ -50,7 +50,7 @@ export interface Config {
   heroImagenUrl?: string | null;
 }
 
-export type TipoCarrusel = "foto" | "reel";
+export type TipoCarrusel = "foto" | "reel" | "video";
 
 export interface CarruselItem {
   id: string;

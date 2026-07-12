@@ -10,6 +10,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.najul.com.ar" }],
+        destination: "https://najul.com.ar/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

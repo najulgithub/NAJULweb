@@ -11,6 +11,7 @@ const NAV = [
   { href: "/admin/carrusel", label: "Carrusel" },
   { href: "/admin/trabajos", label: "Trabajos" },
   { href: "/admin/config", label: "Configuración" },
+  { href: "/admin/usuarios", label: "Administradores" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

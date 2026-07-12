@@ -64,15 +64,17 @@ export default async function Home() {
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-36 lg:px-8 lg:pb-24">
           <div className="max-w-xl [text-shadow:0_2px_20px_rgba(3,26,32,0.4)]">
             <p className="subir text-[0.75rem] uppercase tracking-[0.34em] text-[#eab62c]">
-              Cortinas · Diseño · Trabajos a medida
+              {config.heroEyebrow ?? "Cortinas · Diseño · Trabajos a medida"}
             </p>
             <h1
               className="subir mt-5 font-display text-5xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl lg:text-7xl"
               style={{ animationDelay: "0.08s" }}
             >
-              La luz de tu casa,
+              {config.heroTitulo ?? "La luz de tu casa,"}
               <br />
-              <span className="italic text-[#eab62c]">bien vestida.</span>
+              <span className="italic text-[#eab62c]">
+                {config.heroDestacado ?? "bien vestida."}
+              </span>
             </h1>
             <p
               className="subir mt-6 max-w-md text-lg leading-relaxed text-white/85"
@@ -117,7 +119,7 @@ export default async function Home() {
               Nuestro trabajo
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
-              Ambientes que vestimos
+              {config.carruselTitulo ?? "Ambientes que vestimos"}
             </h2>
           </div>
           <Carrusel items={carrusel} />
@@ -132,7 +134,7 @@ export default async function Home() {
               Qué hacemos
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
-              Soluciones para cada espacio
+              {config.serviciosTitulo ?? "Soluciones para cada espacio"}
             </h2>
           </div>
           <Link
@@ -175,11 +177,12 @@ export default async function Home() {
               Recomendador
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
-              Decinos cómo es tu espacio y te sugerimos la cortina ideal
+              {config.recomendadorTitulo ??
+                "Decinos cómo es tu espacio y te sugerimos la cortina ideal"}
             </h2>
             <p className="mt-4 text-bone/70">
-              Elegís el ambiente, el estilo y cuánta luz querés dejar pasar. En un
-              minuto te mostramos las mejores opciones con ejemplos reales.
+              {config.recomendadorTexto ??
+                "Elegís el ambiente, el estilo y cuánta luz querés dejar pasar. En un minuto te mostramos las mejores opciones con ejemplos reales."}
             </p>
           </div>
           <Link
@@ -215,19 +218,23 @@ export default async function Home() {
       <section id="nosotros" className="border-y border-line bg-paper">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 lg:grid-cols-2 lg:px-8">
           <h2 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
-            Hacemos que tu casa se sienta{" "}
-            <span className="italic text-verde">como querés.</span>
+            {config.nosotrosTitulo ?? (
+              <>
+                Hacemos que tu casa se sienta{" "}
+                <span className="italic text-verde">como querés.</span>
+              </>
+            )}
           </h2>
           <div className="space-y-4 text-lg leading-relaxed text-ink-soft">
-            <p>
-              En {config.nombreEmpresa} trabajamos las cortinas y el diseño del
-              hogar como un oficio: medimos con cuidado, elegimos buenas telas y
-              cuidamos cada terminación.
-            </p>
-            <p>
-              Cada proyecto es a medida. Nos importa que la solución no solo se vea
-              bien, sino que funcione para cómo vivís tu espacio.
-            </p>
+            {(
+              config.nosotrosTexto ??
+              `En ${config.nombreEmpresa} trabajamos las cortinas y el diseño del hogar como un oficio: medimos con cuidado, elegimos buenas telas y cuidamos cada terminación.\n\nCada proyecto es a medida. Nos importa que la solución no solo se vea bien, sino que funcione para cómo vivís tu espacio.`
+            )
+              .split("\n")
+              .filter((p) => p.trim())
+              .map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
           </div>
         </div>
       </section>
@@ -235,10 +242,11 @@ export default async function Home() {
       {/* ---------------- CTA FINAL ---------------- */}
       <section className="mx-auto max-w-6xl px-5 py-24 text-center lg:px-8">
         <h2 className="mx-auto max-w-2xl font-display text-4xl font-semibold text-ink sm:text-5xl">
-          ¿Empezamos tu proyecto?
+          {config.ctaTitulo ?? "¿Empezamos tu proyecto?"}
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-ink-soft">
-          Escribinos por WhatsApp y coordinamos una visita para medir y asesorarte.
+          {config.ctaTexto ??
+            "Escribinos por WhatsApp y coordinamos una visita para medir y asesorarte."}
         </p>
         {wa && (
           <a

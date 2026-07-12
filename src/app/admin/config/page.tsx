@@ -4,46 +4,87 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { subirImagen, borrarImagenPorUrl } from "@/lib/admin";
 
-type Campos = {
-  nombre_empresa: string;
-  claim: string;
-  descripcion: string;
-  whatsapp: string;
-  whatsapp_mensaje: string;
-  email: string;
-  direccion: string;
-  horarios: string;
-  instagram: string;
-  facebook: string;
-};
+type Clave =
+  | "nombre_empresa"
+  | "claim"
+  | "descripcion"
+  | "whatsapp"
+  | "whatsapp_mensaje"
+  | "email"
+  | "direccion"
+  | "horarios"
+  | "instagram"
+  | "facebook"
+  | "hero_eyebrow"
+  | "hero_titulo"
+  | "hero_destacado"
+  | "carrusel_titulo"
+  | "servicios_titulo"
+  | "recomendador_titulo"
+  | "recomendador_texto"
+  | "nosotros_titulo"
+  | "nosotros_texto"
+  | "cta_titulo"
+  | "cta_texto";
 
-const VACIO: Campos = {
-  nombre_empresa: "",
-  claim: "",
-  descripcion: "",
-  whatsapp: "",
-  whatsapp_mensaje: "",
-  email: "",
-  direccion: "",
-  horarios: "",
-  instagram: "",
-  facebook: "",
-};
+type Campos = Record<Clave, string>;
 
-const LABELS: Record<keyof Campos, string> = {
+const CLAVES: Clave[] = [
+  "nombre_empresa", "claim", "descripcion", "whatsapp", "whatsapp_mensaje",
+  "email", "direccion", "horarios", "instagram", "facebook",
+  "hero_eyebrow", "hero_titulo", "hero_destacado", "carrusel_titulo",
+  "servicios_titulo", "recomendador_titulo", "recomendador_texto",
+  "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
+];
+
+const VACIO = Object.fromEntries(CLAVES.map((k) => [k, ""])) as Campos;
+
+const LABELS: Record<Clave, string> = {
   nombre_empresa: "Nombre de la empresa",
-  claim: "Frase principal (hero)",
-  descripcion: "Descripción / nosotros",
-  whatsapp: "WhatsApp (solo números, ej: 5492235551234)",
+  claim: "Frase corta (SEO / footer)",
+  descripcion: "Hero — bajada (subtítulo)",
+  whatsapp: "WhatsApp (solo números, ej: 5492266670991)",
   whatsapp_mensaje: "Mensaje prellenado de WhatsApp",
   email: "Email",
   direccion: "Dirección",
   horarios: "Horarios",
   instagram: "Instagram (URL)",
   facebook: "Facebook (URL)",
+  hero_eyebrow: "Hero — rótulo superior",
+  hero_titulo: "Hero — título (línea 1)",
+  hero_destacado: "Hero — palabra destacada (dorado)",
+  carrusel_titulo: "Carrusel — título",
+  servicios_titulo: "Servicios — título",
+  recomendador_titulo: "Recomendador — título",
+  recomendador_texto: "Recomendador — texto",
+  nosotros_titulo: "Nosotros — título",
+  nosotros_texto: "Nosotros — texto (usá renglones para separar párrafos)",
+  cta_titulo: "Cierre — título",
+  cta_texto: "Cierre — texto",
 };
 
-const LARGOS: (keyof Campos)[] = ["descripcion", "whatsapp_mensaje"];
+const LARGOS: Clave[] = [
+  "descripcion", "whatsapp_mensaje", "recomendador_texto", "nosotros_texto", "cta_texto",
+];
+
+const GRUPOS: { titulo: string; claves: Clave[] }[] = [
+  { titulo: "Marca", claves: ["nombre_empresa", "claim"] },
+  {
+    titulo: "Contacto",
+    claves: ["whatsapp", "whatsapp_mensaje", "email", "direccion", "horarios", "instagram", "facebook"],
+  },
+  {
+    titulo: "Inicio — Hero",
+    claves: ["hero_eyebrow", "hero_titulo", "hero_destacado", "descripcion"],
+  },
+  {
+    titulo: "Inicio — Secciones",
+    claves: [
+      "carrusel_titulo", "servicios_titulo", "recomendador_titulo",
+      "recomendador_texto", "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
+    ],
+  },
+];
 
 export default function ConfigPage() {
   const [campos, setCampos] = useState<Campos>(VACIO);
@@ -62,9 +103,7 @@ export default function ConfigPage() {
       .then(({ data }) => {
         if (data) {
           const c = { ...VACIO };
-          for (const k of Object.keys(VACIO) as (keyof Campos)[]) {
-            c[k] = (data[k] as string) ?? "";
-          }
+          for (const k of CLAVES) c[k] = (data[k] as string) ?? "";
           setCampos(c);
           setLogoUrl((data.logo_url as string) ?? "");
         }
@@ -72,7 +111,7 @@ export default function ConfigPage() {
       });
   }, []);
 
-  function set(k: keyof Campos, v: string) {
+  function set(k: Clave, v: string) {
     setCampos((c) => ({ ...c, [k]: v }));
   }
 
@@ -99,14 +138,32 @@ export default function ConfigPage() {
     setMsg(null);
     const { error } = await supabase
       .from("config")
-      .update({
-        ...campos,
-        logo_url: logoUrl || null,
-        actualizado_en: new Date().toISOString(),
-      })
+      .update({ ...campos, logo_url: logoUrl || null, actualizado_en: new Date().toISOString() })
       .eq("id", 1);
     setGuardando(false);
     setMsg(error ? `Error: ${error.message}` : "Guardado ✓");
+  }
+
+  function campo(k: Clave) {
+    return (
+      <div key={k}>
+        <label className="text-sm text-ink-soft">{LABELS[k]}</label>
+        {LARGOS.includes(k) ? (
+          <textarea
+            value={campos[k]}
+            onChange={(e) => set(k, e.target.value)}
+            rows={3}
+            className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
+          />
+        ) : (
+          <input
+            value={campos[k]}
+            onChange={(e) => set(k, e.target.value)}
+            className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
+          />
+        )}
+      </div>
+    );
   }
 
   if (cargando) return <p className="text-muted">Cargando…</p>;
@@ -115,14 +172,15 @@ export default function ConfigPage() {
     <div className="max-w-2xl">
       <h1 className="font-display text-3xl font-semibold text-ink">Configuración</h1>
       <p className="mt-1 text-muted">
-        Logo, textos y datos de contacto que se muestran en el sitio.
+        Logo, contacto y todos los textos del inicio. Si un texto queda vacío, se
+        muestra el valor por defecto.
       </p>
 
-      <form onSubmit={guardar} className="mt-8 space-y-5">
+      <form onSubmit={guardar} className="mt-8 space-y-10">
         {/* Logo */}
         <div>
-          <label className="text-sm text-ink-soft">Logo</label>
-          <div className="mt-2 flex items-center gap-4 rounded-xl border border-line bg-paper p-4">
+          <h2 className="font-display text-xl text-ink">Logo</h2>
+          <div className="mt-3 flex items-center gap-4 rounded-xl border border-line bg-paper p-4">
             <div className="flex h-16 w-40 items-center justify-center overflow-hidden rounded-lg bg-bone">
               {logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -153,32 +211,16 @@ export default function ConfigPage() {
               )}
             </div>
           </div>
-          <p className="mt-1 text-xs text-muted">
-            Preferí PNG con fondo transparente o SVG. Se muestra en el encabezado y el pie.
-          </p>
         </div>
 
-        {(Object.keys(VACIO) as (keyof Campos)[]).map((k) => (
-          <div key={k}>
-            <label className="text-sm text-ink-soft">{LABELS[k]}</label>
-            {LARGOS.includes(k) ? (
-              <textarea
-                value={campos[k]}
-                onChange={(e) => set(k, e.target.value)}
-                rows={3}
-                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
-              />
-            ) : (
-              <input
-                value={campos[k]}
-                onChange={(e) => set(k, e.target.value)}
-                className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-ink outline-none focus:border-verde"
-              />
-            )}
+        {GRUPOS.map((g) => (
+          <div key={g.titulo}>
+            <h2 className="font-display text-xl text-ink">{g.titulo}</h2>
+            <div className="mt-4 space-y-5">{g.claves.map(campo)}</div>
           </div>
         ))}
 
-        <div className="flex items-center gap-4">
+        <div className="sticky bottom-0 -mx-1 flex items-center gap-4 border-t border-line bg-bone/90 px-1 py-4 backdrop-blur">
           <button
             type="submit"
             disabled={guardando || subiendo}

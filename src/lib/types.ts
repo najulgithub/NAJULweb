@@ -48,6 +48,18 @@ export interface Config {
   facebook?: string | null;
   logoUrl?: string | null;
   heroImagenUrl?: string | null;
+  // Textos editables del inicio (con fallback en la página)
+  heroEyebrow?: string | null;
+  heroTitulo?: string | null;
+  heroDestacado?: string | null;
+  carruselTitulo?: string | null;
+  serviciosTitulo?: string | null;
+  recomendadorTitulo?: string | null;
+  recomendadorTexto?: string | null;
+  nosotrosTitulo?: string | null;
+  nosotrosTexto?: string | null;
+  ctaTitulo?: string | null;
+  ctaTexto?: string | null;
 }
 
 export type TipoCarrusel = "foto" | "reel" | "video";

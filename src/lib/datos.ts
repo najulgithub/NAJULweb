@@ -26,6 +26,17 @@ function configDe(r: Record<string, unknown> | null): Config {
     facebook: (r?.facebook as string) ?? null,
     logoUrl: (r?.logo_url as string) ?? null,
     heroImagenUrl: (r?.hero_imagen_url as string) ?? null,
+    heroEyebrow: (r?.hero_eyebrow as string) ?? null,
+    heroTitulo: (r?.hero_titulo as string) ?? null,
+    heroDestacado: (r?.hero_destacado as string) ?? null,
+    carruselTitulo: (r?.carrusel_titulo as string) ?? null,
+    serviciosTitulo: (r?.servicios_titulo as string) ?? null,
+    recomendadorTitulo: (r?.recomendador_titulo as string) ?? null,
+    recomendadorTexto: (r?.recomendador_texto as string) ?? null,
+    nosotrosTitulo: (r?.nosotros_titulo as string) ?? null,
+    nosotrosTexto: (r?.nosotros_texto as string) ?? null,
+    ctaTitulo: (r?.cta_titulo as string) ?? null,
+    ctaTexto: (r?.cta_texto as string) ?? null,
   };
 }
 

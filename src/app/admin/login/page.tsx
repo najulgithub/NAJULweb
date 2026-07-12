@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -10,6 +10,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("config")
+      .select("logo_url")
+      .eq("id", 1)
+      .maybeSingle()
+      .then(({ data }) => setLogoUrl((data?.logo_url as string) ?? null));
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,10 +38,17 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-5">
       <div className="w-full max-w-sm">
-        <p className="text-center font-display text-3xl font-semibold text-ink">
-          Najul
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logoUrl} alt="Najul" className="mx-auto h-12 w-auto" />
+        ) : (
+          <p className="text-center font-display text-3xl font-semibold text-ink">
+            Najul
+          </p>
+        )}
+        <p className="mt-2 text-center text-[0.7rem] uppercase tracking-[0.24em] text-oro">
+          Panel de administración
         </p>
-        <p className="mt-1 text-center text-sm text-muted">Panel de administración</p>
 
         <form
           onSubmit={onSubmit}

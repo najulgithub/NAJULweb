@@ -19,6 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const esLogin = pathname === "/admin/login";
   const [session, setSession] = useState<Session | null>(null);
   const [listo, setListo] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -26,6 +27,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       setListo(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    supabase
+      .from("config")
+      .select("logo_url")
+      .eq("id", 1)
+      .maybeSingle()
+      .then(({ data }) => setLogoUrl((data?.logo_url as string) ?? null));
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -50,11 +57,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-line bg-paper">
+      <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
           <div className="flex items-center gap-6">
-            <Link href="/admin" className="font-display text-xl font-semibold text-ink">
-              Najul <span className="text-sm font-normal text-muted">admin</span>
+            <Link href="/admin" className="flex items-center gap-2">
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoUrl} alt="Najul" className="h-8 w-auto" />
+              ) : (
+                <span className="font-display text-xl font-semibold text-ink">Najul</span>
+              )}
+              <span className="text-[0.6rem] uppercase tracking-[0.24em] text-oro">
+                Panel
+              </span>
             </Link>
             <nav className="hidden gap-5 sm:flex">
               {NAV.map((n) => {

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { subirImagen, borrarImagenPorUrl } from "@/lib/admin";
 import { embedInstagram } from "@/lib/instagram";
+import BotonDrive from "@/components/BotonDrive";
 import type { CarruselItem } from "@/lib/types";
 
 type Item = CarruselItem & { activo: boolean };
@@ -28,17 +29,13 @@ export default function CarruselAdmin() {
     cargar();
   }, [cargar]);
 
-  async function subirArchivos(
-    e: React.ChangeEvent<HTMLInputElement>,
-    tipo: "foto" | "video",
-  ) {
-    const files = Array.from(e.target.files ?? []);
-    e.target.value = "";
+  async function subirLista(files: File[], tipoForzado?: "foto" | "video") {
     if (!files.length) return;
     setSubiendo(true);
     try {
       let orden = items.length;
       for (const f of files) {
+        const tipo = tipoForzado ?? (f.type.startsWith("video") ? "video" : "foto");
         const { url } = await subirImagen(f);
         await supabase.from("carrusel_items").insert({ tipo, url, orden: orden++ });
       }
@@ -48,6 +45,15 @@ export default function CarruselAdmin() {
     } finally {
       setSubiendo(false);
     }
+  }
+
+  async function subirArchivos(
+    e: React.ChangeEvent<HTMLInputElement>,
+    tipo: "foto" | "video",
+  ) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    await subirLista(files, tipo);
   }
 
   async function agregarReel() {
@@ -124,6 +130,7 @@ export default function CarruselAdmin() {
             className="hidden"
           />
         </label>
+        <BotonDrive onFiles={(files) => subirLista(files)} />
         <span className="text-sm text-muted">o</span>
         <input
           value={reelUrl}

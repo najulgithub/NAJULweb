@@ -20,6 +20,9 @@ type Clave =
   | "hero_destacado"
   | "carrusel_titulo"
   | "servicios_titulo"
+  | "servicios_eyebrow"
+  | "servicios_link"
+  | "servicios_ver"
   | "recomendador_titulo"
   | "recomendador_texto"
   | "nosotros_titulo"
@@ -33,7 +36,8 @@ const CLAVES: Clave[] = [
   "nombre_empresa", "claim", "descripcion", "whatsapp", "whatsapp_mensaje",
   "email", "direccion", "horarios", "instagram", "facebook",
   "hero_eyebrow", "hero_titulo", "hero_destacado", "carrusel_titulo",
-  "servicios_titulo", "recomendador_titulo", "recomendador_texto",
+  "servicios_titulo", "servicios_eyebrow", "servicios_link", "servicios_ver",
+  "recomendador_titulo", "recomendador_texto",
   "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
 ];
 
@@ -55,6 +59,9 @@ const LABELS: Record<Clave, string> = {
   hero_destacado: "Hero — palabra destacada (dorado)",
   carrusel_titulo: "Carrusel — título",
   servicios_titulo: "Servicios — título",
+  servicios_eyebrow: "Servicios — rótulo (arriba del título)",
+  servicios_link: "Servicios — link al recomendador",
+  servicios_ver: "Servicios — CTA de cada tarjeta",
   recomendador_titulo: "Recomendador — título",
   recomendador_texto: "Recomendador — texto",
   nosotros_titulo: "Nosotros — título",
@@ -80,8 +87,9 @@ const GRUPOS: { titulo: string; claves: Clave[] }[] = [
   {
     titulo: "Inicio — Secciones",
     claves: [
-      "carrusel_titulo", "servicios_titulo", "recomendador_titulo",
-      "recomendador_texto", "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
+      "carrusel_titulo", "servicios_titulo", "servicios_eyebrow", "servicios_link",
+      "servicios_ver", "recomendador_titulo", "recomendador_texto", "nosotros_titulo",
+      "nosotros_texto", "cta_titulo", "cta_texto",
     ],
   },
 ];

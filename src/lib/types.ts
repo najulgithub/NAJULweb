@@ -54,6 +54,9 @@ export interface Config {
   heroDestacado?: string | null;
   carruselTitulo?: string | null;
   serviciosTitulo?: string | null;
+  serviciosEyebrow?: string | null;
+  serviciosLink?: string | null;
+  serviciosVer?: string | null;
   recomendadorTitulo?: string | null;
   recomendadorTexto?: string | null;
   nosotrosTitulo?: string | null;

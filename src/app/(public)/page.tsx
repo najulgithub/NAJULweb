@@ -131,7 +131,7 @@ export default async function Home() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
-              Qué hacemos
+              {config.serviciosEyebrow ?? "Qué hacemos"}
             </p>
             <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
               {config.serviciosTitulo ?? "Soluciones para cada espacio"}
@@ -141,7 +141,7 @@ export default async function Home() {
             href="/recomendador"
             className="text-sm text-ink-soft underline decoration-verde/40 underline-offset-4 hover:text-verde"
           >
-            ¿No sabés cuál elegir? Usá el recomendador →
+            {config.serviciosLink ?? "¿No sabés cuál elegir? Usá el recomendador →"}
           </Link>
         </div>
 
@@ -162,7 +162,7 @@ export default async function Home() {
                 </p>
               )}
               <span className="mt-6 inline-flex items-center gap-1 text-sm text-verde opacity-0 transition-opacity group-hover:opacity-100">
-                Ver ejemplos →
+                {config.serviciosVer ?? "Ver ejemplos →"}
               </span>
             </Link>
           ))}

@@ -37,14 +37,14 @@ export default function AdminInicio() {
         </Link>
 
         <Link
-          href="/admin/config"
+          href="/admin/categorias"
           className="rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-verde/40"
         >
           <p className="text-sm text-muted">Categorías</p>
           <p className="mt-2 font-display text-4xl text-ink">
             {categorias ?? "—"}
           </p>
-          <p className="mt-4 text-sm text-verde">Editar configuración →</p>
+          <p className="mt-4 text-sm text-verde">Editar categorías →</p>
         </Link>
       </div>
     </div>

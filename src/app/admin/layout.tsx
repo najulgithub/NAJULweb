@@ -10,6 +10,7 @@ const NAV = [
   { href: "/admin", label: "Inicio" },
   { href: "/admin/carrusel", label: "Carrusel" },
   { href: "/admin/trabajos", label: "Trabajos" },
+  { href: "/admin/categorias", label: "Categorías" },
   { href: "/admin/config", label: "Configuración" },
   { href: "/admin/usuarios", label: "Administradores" },
 ];

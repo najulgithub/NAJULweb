@@ -98,8 +98,8 @@ export default function Footer({ config }: { config: Config }) {
               </Link>
             </li>
             <li>
-              <Link className="hover:text-verde" href="/recomendador">
-                Recomendador
+              <Link className="hover:text-verde" href="/#proceso">
+                Cómo trabajamos
               </Link>
             </li>
           </ul>

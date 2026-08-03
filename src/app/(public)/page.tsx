@@ -1,7 +1,12 @@
 import Link from "next/link";
-import { getConfig, getCategorias, getCarrusel } from "@/lib/datos";
+import { getConfig, getCategorias, getCarrusel, getTrabajos } from "@/lib/datos";
 import { linkWhatsapp } from "@/lib/wa";
 import Carrusel from "@/components/Carrusel";
+
+function portadaTrabajo(t: { imagenes: { url: string; tipo: string }[] }): string | null {
+  const p = t.imagenes.find((i) => i.tipo === "portada") ?? t.imagenes[0];
+  return p?.url ?? null;
+}
 
 const PROCESO = [
   {
@@ -27,11 +32,15 @@ const PROCESO = [
 ];
 
 export default async function Home() {
-  const [config, tipos, carrusel] = await Promise.all([
+  const [config, tipos, carrusel, trabajos] = await Promise.all([
     getConfig(),
     getCategorias("tipo_trabajo"),
     getCarrusel(),
+    getTrabajos(),
   ]);
+  const trabajosHome = [...trabajos]
+    .sort((a, b) => Number(b.destacado) - Number(a.destacado))
+    .slice(0, 6);
   const wa = linkWhatsapp(config.whatsapp, config.whatsappMensaje);
 
   return (
@@ -128,21 +137,13 @@ export default async function Home() {
 
       {/* ---------------- TIPOS DE TRABAJO ---------------- */}
       <section id="trabajos" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
-              {config.serviciosEyebrow ?? "Qué hacemos"}
-            </p>
-            <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
-              {config.serviciosTitulo ?? "Soluciones para cada espacio"}
-            </h2>
-          </div>
-          <Link
-            href="/recomendador"
-            className="text-sm text-ink-soft underline decoration-verde/40 underline-offset-4 hover:text-verde"
-          >
-            {config.serviciosLink ?? "¿No sabés cuál elegir? Usá el recomendador →"}
-          </Link>
+        <div>
+          <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
+            {config.serviciosEyebrow ?? "Qué hacemos"}
+          </p>
+          <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
+            {config.serviciosTitulo ?? "Soluciones para cada espacio"}
+          </h2>
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -169,30 +170,66 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ---------------- RECOMENDADOR TEASER ---------------- */}
-      <section className="relative overflow-hidden bg-ink text-bone">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 px-5 py-20 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <div className="max-w-xl">
-            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
-              Recomendador
-            </p>
-            <h2 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
-              {config.recomendadorTitulo ??
-                "Decinos cómo es tu espacio y te sugerimos la cortina ideal"}
-            </h2>
-            <p className="mt-4 text-bone/70">
-              {config.recomendadorTexto ??
-                "Elegís el ambiente, el estilo y cuánta luz querés dejar pasar. En un minuto te mostramos las mejores opciones con ejemplos reales."}
-            </p>
+      {/* ---------------- TRABAJOS REALIZADOS ---------------- */}
+      {trabajosHome.length > 0 && (
+        <section className="border-y border-line bg-paper">
+          <div className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
+                  Trabajos realizados
+                </p>
+                <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
+                  Proyectos que hicimos a medida
+                </h2>
+              </div>
+              <Link
+                href="/trabajos"
+                className="text-sm text-ink-soft underline decoration-verde/40 underline-offset-4 hover:text-verde"
+              >
+                Ver todos los trabajos →
+              </Link>
+            </div>
+
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {trabajosHome.map((t) => {
+                const url = portadaTrabajo(t);
+                return (
+                  <Link
+                    key={t.id}
+                    href={`/trabajos/${t.slug}`}
+                    className="group overflow-hidden rounded-2xl border border-line bg-bone transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-black/5"
+                  >
+                    <div className="aspect-[4/3] overflow-hidden bg-line/40">
+                      {url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={url}
+                          alt={t.titulo}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <p className="font-display text-xl text-ink">{t.titulo}</p>
+                      {t.ubicacion && (
+                        <p className="mt-0.5 text-xs uppercase tracking-wide text-oro">
+                          {t.ubicacion}
+                        </p>
+                      )}
+                      {t.resumen && (
+                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
+                          {t.resumen}
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-          <Link
-            href="/recomendador"
-            className="rounded-full bg-verde px-8 py-4 text-sm font-medium text-white transition-colors hover:bg-verde-dark"
-          >
-            Empezar recomendador →
-          </Link>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ---------------- PROCESO ---------------- */}
       <section id="proceso" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">

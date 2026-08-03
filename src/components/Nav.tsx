@@ -7,7 +7,6 @@ import { linkWhatsapp } from "@/lib/wa";
 
 const LINKS = [
   { href: "/trabajos", label: "Trabajos" },
-  { href: "/recomendador", label: "Recomendador" },
   { href: "/#proceso", label: "Proceso" },
   { href: "/#nosotros", label: "Nosotros" },
 ];

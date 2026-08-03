@@ -21,10 +21,7 @@ type Clave =
   | "carrusel_titulo"
   | "servicios_titulo"
   | "servicios_eyebrow"
-  | "servicios_link"
   | "servicios_ver"
-  | "recomendador_titulo"
-  | "recomendador_texto"
   | "nosotros_titulo"
   | "nosotros_texto"
   | "cta_titulo"
@@ -36,8 +33,7 @@ const CLAVES: Clave[] = [
   "nombre_empresa", "claim", "descripcion", "whatsapp", "whatsapp_mensaje",
   "email", "direccion", "horarios", "instagram", "facebook",
   "hero_eyebrow", "hero_titulo", "hero_destacado", "carrusel_titulo",
-  "servicios_titulo", "servicios_eyebrow", "servicios_link", "servicios_ver",
-  "recomendador_titulo", "recomendador_texto",
+  "servicios_titulo", "servicios_eyebrow", "servicios_ver",
   "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
 ];
 
@@ -60,10 +56,7 @@ const LABELS: Record<Clave, string> = {
   carrusel_titulo: "Carrusel — título",
   servicios_titulo: "Servicios — título",
   servicios_eyebrow: "Servicios — rótulo (arriba del título)",
-  servicios_link: "Servicios — link al recomendador",
   servicios_ver: "Servicios — CTA de cada tarjeta",
-  recomendador_titulo: "Recomendador — título",
-  recomendador_texto: "Recomendador — texto",
   nosotros_titulo: "Nosotros — título",
   nosotros_texto: "Nosotros — texto (usá renglones para separar párrafos)",
   cta_titulo: "Cierre — título",
@@ -71,7 +64,7 @@ const LABELS: Record<Clave, string> = {
 };
 
 const LARGOS: Clave[] = [
-  "descripcion", "whatsapp_mensaje", "recomendador_texto", "nosotros_texto", "cta_texto",
+  "descripcion", "whatsapp_mensaje", "nosotros_texto", "cta_texto",
 ];
 
 const GRUPOS: { titulo: string; claves: Clave[] }[] = [
@@ -87,9 +80,8 @@ const GRUPOS: { titulo: string; claves: Clave[] }[] = [
   {
     titulo: "Inicio — Secciones",
     claves: [
-      "carrusel_titulo", "servicios_titulo", "servicios_eyebrow", "servicios_link",
-      "servicios_ver", "recomendador_titulo", "recomendador_texto", "nosotros_titulo",
-      "nosotros_texto", "cta_titulo", "cta_texto",
+      "carrusel_titulo", "servicios_titulo", "servicios_eyebrow", "servicios_ver",
+      "nosotros_titulo", "nosotros_texto", "cta_titulo", "cta_texto",
     ],
   },
 ];

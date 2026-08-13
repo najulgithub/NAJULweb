@@ -12,34 +12,42 @@ function sb() {
 
 // -------------------- mappers (DB snake_case -> app camelCase) --------------------
 
+// Texto de la DB, normalizado: recorta y devuelve null si quedó vacío. Es clave,
+// porque el admin guarda "" cuando se borra un campo y las páginas resuelven los
+// textos con `?? default` — un "" pasaría el ?? y dejaría el título en blanco.
+function txt(v: unknown): string | null {
+  const s = typeof v === "string" ? v.trim() : null;
+  return s ? s : null;
+}
+
 function configDe(r: Record<string, unknown> | null): Config {
   return {
-    nombreEmpresa: (r?.nombre_empresa as string) ?? "Najul",
-    claim: (r?.claim as string) ?? null,
-    descripcion: (r?.descripcion as string) ?? null,
-    whatsapp: (r?.whatsapp as string) ?? null,
-    whatsappMensaje: (r?.whatsapp_mensaje as string) ?? null,
-    email: (r?.email as string) ?? null,
-    direccion: (r?.direccion as string) ?? null,
-    horarios: (r?.horarios as string) ?? null,
-    instagram: (r?.instagram as string) ?? null,
-    facebook: (r?.facebook as string) ?? null,
-    logoUrl: (r?.logo_url as string) ?? null,
-    heroImagenUrl: (r?.hero_imagen_url as string) ?? null,
-    heroEyebrow: (r?.hero_eyebrow as string) ?? null,
-    heroTitulo: (r?.hero_titulo as string) ?? null,
-    heroDestacado: (r?.hero_destacado as string) ?? null,
-    carruselTitulo: (r?.carrusel_titulo as string) ?? null,
-    serviciosTitulo: (r?.servicios_titulo as string) ?? null,
-    serviciosEyebrow: (r?.servicios_eyebrow as string) ?? null,
-    serviciosLink: (r?.servicios_link as string) ?? null,
-    serviciosVer: (r?.servicios_ver as string) ?? null,
-    recomendadorTitulo: (r?.recomendador_titulo as string) ?? null,
-    recomendadorTexto: (r?.recomendador_texto as string) ?? null,
-    nosotrosTitulo: (r?.nosotros_titulo as string) ?? null,
-    nosotrosTexto: (r?.nosotros_texto as string) ?? null,
-    ctaTitulo: (r?.cta_titulo as string) ?? null,
-    ctaTexto: (r?.cta_texto as string) ?? null,
+    nombreEmpresa: txt(r?.nombre_empresa) ?? "Najul",
+    claim: txt(r?.claim),
+    descripcion: txt(r?.descripcion),
+    whatsapp: txt(r?.whatsapp),
+    whatsappMensaje: txt(r?.whatsapp_mensaje),
+    email: txt(r?.email),
+    direccion: txt(r?.direccion),
+    horarios: txt(r?.horarios),
+    instagram: txt(r?.instagram),
+    facebook: txt(r?.facebook),
+    logoUrl: txt(r?.logo_url),
+    heroImagenUrl: txt(r?.hero_imagen_url),
+    heroEyebrow: txt(r?.hero_eyebrow),
+    heroTitulo: txt(r?.hero_titulo),
+    heroDestacado: txt(r?.hero_destacado),
+    carruselTitulo: txt(r?.carrusel_titulo),
+    serviciosTitulo: txt(r?.servicios_titulo),
+    serviciosEyebrow: txt(r?.servicios_eyebrow),
+    serviciosLink: txt(r?.servicios_link),
+    serviciosVer: txt(r?.servicios_ver),
+    recomendadorTitulo: txt(r?.recomendador_titulo),
+    recomendadorTexto: txt(r?.recomendador_texto),
+    nosotrosTitulo: txt(r?.nosotros_titulo),
+    nosotrosTexto: txt(r?.nosotros_texto),
+    ctaTitulo: txt(r?.cta_titulo),
+    ctaTexto: txt(r?.cta_texto),
   };
 }
 

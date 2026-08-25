@@ -41,6 +41,17 @@ export default async function Home() {
   const trabajosHome = [...trabajos]
     .sort((a, b) => Number(b.destacado) - Number(a.destacado))
     .slice(0, 6);
+
+  // Tarjetas de "Qué hacemos": solo los tipos que tienen algo para mostrar detrás
+  // (fotos del carrusel clasificadas o un trabajo cargado). Si no, el "Ver ejemplos"
+  // caía en una página vacía. Al subir la primera foto del tipo, la tarjeta vuelve sola.
+  const conContenido = new Set<string>([
+    ...carrusel
+      .filter((f) => f.tipo !== "reel" && f.categoriaId)
+      .map((f) => f.categoriaId as string),
+    ...trabajos.flatMap((t) => t.categoriaIds),
+  ]);
+  const tiposConContenido = tipos.filter((t) => conContenido.has(t.id));
   const wa = linkWhatsapp(config.whatsapp, config.whatsappMensaje);
 
   return (
@@ -136,39 +147,41 @@ export default async function Home() {
       )}
 
       {/* ---------------- TIPOS DE TRABAJO ---------------- */}
-      <section id="trabajos" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
-        <div>
-          <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
-            {config.serviciosEyebrow ?? "Qué hacemos"}
-          </p>
-          <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
-            {config.serviciosTitulo ?? "Soluciones para cada espacio"}
-          </h2>
-        </div>
+      {tiposConContenido.length > 0 && (
+        <section id="trabajos" className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
+          <div>
+            <p className="text-[0.72rem] uppercase tracking-[0.3em] text-oro">
+              {config.serviciosEyebrow ?? "Qué hacemos"}
+            </p>
+            <h2 className="mt-3 font-display text-4xl font-semibold text-ink sm:text-5xl">
+              {config.serviciosTitulo ?? "Soluciones para cada espacio"}
+            </h2>
+          </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tipos.map((t, i) => (
-            <Link
-              key={t.id}
-              href={`/trabajos?tipo=${t.slug}`}
-              className="group relative overflow-hidden rounded-2xl border border-line bg-paper p-6 transition-all hover:-translate-y-1 hover:border-verde/40 hover:shadow-lg hover:shadow-black/5"
-            >
-              <span className="font-display text-4xl text-line transition-colors group-hover:text-verde/30">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <p className="mt-6 font-display text-2xl text-ink">{t.nombre}</p>
-              {t.descripcion && (
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  {t.descripcion}
-                </p>
-              )}
-              <span className="mt-6 inline-flex items-center gap-1 text-sm text-verde opacity-0 transition-opacity group-hover:opacity-100">
-                {config.serviciosVer ?? "Ver ejemplos →"}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {tiposConContenido.map((t, i) => (
+              <Link
+                key={t.id}
+                href={`/trabajos?tipo=${t.slug}`}
+                className="group relative overflow-hidden rounded-2xl border border-line bg-paper p-6 transition-all hover:-translate-y-1 hover:border-verde/40 hover:shadow-lg hover:shadow-black/5"
+              >
+                <span className="font-display text-4xl text-line transition-colors group-hover:text-verde/30">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-6 font-display text-2xl text-ink">{t.nombre}</p>
+                {t.descripcion && (
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    {t.descripcion}
+                  </p>
+                )}
+                <span className="mt-6 inline-flex items-center gap-1 text-sm text-verde opacity-0 transition-opacity group-hover:opacity-100">
+                  {config.serviciosVer ?? "Ver ejemplos →"}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ---------------- TRABAJOS REALIZADOS ---------------- */}
       {trabajosHome.length > 0 && (

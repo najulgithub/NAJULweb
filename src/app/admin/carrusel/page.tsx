@@ -5,23 +5,39 @@ import { supabase } from "@/lib/supabase";
 import { subirImagen, borrarImagenPorUrl } from "@/lib/admin";
 import { embedInstagram } from "@/lib/instagram";
 import BotonDrive from "@/components/BotonDrive";
-import type { CarruselItem } from "@/lib/types";
+import type { CarruselItem, Categoria } from "@/lib/types";
 
-type Item = CarruselItem & { activo: boolean };
+// El admin trabaja con las filas crudas de la DB (snake_case), como el resto del panel.
+type Item = Omit<CarruselItem, "categoriaId"> & {
+  activo: boolean;
+  categoria_id: string | null;
+};
 
 export default function CarruselAdmin() {
   const [items, setItems] = useState<Item[]>([]);
+  const [cats, setCats] = useState<Categoria[]>([]);
+  // Categoría que se le aplica a todo lo que se suba ahora ("" = sin clasificar).
+  const [catNueva, setCatNueva] = useState("");
   const [cargando, setCargando] = useState(true);
   const [subiendo, setSubiendo] = useState(false);
   const [reelUrl, setReelUrl] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
 
   const cargar = useCallback(async () => {
-    const { data } = await supabase
-      .from("carrusel_items")
-      .select("id, tipo, url, titulo, orden, activo")
-      .order("orden");
+    const [{ data }, { data: cs }] = await Promise.all([
+      supabase
+        .from("carrusel_items")
+        .select("id, tipo, url, titulo, orden, activo, categoria_id")
+        .order("orden"),
+      supabase
+        .from("categorias")
+        .select("id, eje, nombre, slug, orden")
+        .eq("eje", "tipo_trabajo")
+        .eq("activo", true)
+        .order("orden"),
+    ]);
     setItems((data as Item[]) ?? []);
+    setCats((cs as Categoria[]) ?? []);
     setCargando(false);
   }, []);
 
@@ -37,7 +53,9 @@ export default function CarruselAdmin() {
       for (const f of files) {
         const tipo = tipoForzado ?? (f.type.startsWith("video") ? "video" : "foto");
         const { url } = await subirImagen(f);
-        await supabase.from("carrusel_items").insert({ tipo, url, orden: orden++ });
+        await supabase
+          .from("carrusel_items")
+          .insert({ tipo, url, orden: orden++, categoria_id: catNueva || null });
       }
       await cargar();
     } catch (err) {
@@ -64,7 +82,12 @@ export default function CarruselAdmin() {
     }
     const { error } = await supabase
       .from("carrusel_items")
-      .insert({ tipo: "reel", url: reelUrl.trim(), orden: items.length });
+      .insert({
+        tipo: "reel",
+        url: reelUrl.trim(),
+        orden: items.length,
+        categoria_id: catNueva || null,
+      });
     if (error) setMsg(`Error: ${error.message}`);
     else {
       setReelUrl("");
@@ -79,6 +102,12 @@ export default function CarruselAdmin() {
 
   async function guardarTitulo(it: CarruselItem, titulo: string) {
     await supabase.from("carrusel_items").update({ titulo: titulo || null }).eq("id", it.id);
+  }
+
+  async function guardarCategoria(it: Item, categoriaId: string) {
+    const categoria_id = categoriaId || null;
+    setItems((prev) => prev.map((x) => (x.id === it.id ? { ...x, categoria_id } : x)));
+    await supabase.from("carrusel_items").update({ categoria_id }).eq("id", it.id);
   }
 
   async function mover(idx: number, dir: -1 | 1) {
@@ -108,6 +137,25 @@ export default function CarruselAdmin() {
 
       {/* Agregar */}
       <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-paper p-4">
+        <label className="flex w-full flex-wrap items-center gap-2 border-b border-line pb-3 text-sm text-ink-soft">
+          <span className="shrink-0">Tipo de trabajo de lo que subas:</span>
+          <select
+            value={catNueva}
+            onChange={(e) => setCatNueva(e.target.value)}
+            className="rounded-lg border border-line bg-bone px-2 py-1.5 text-sm text-ink outline-none focus:border-verde"
+          >
+            <option value="">Sin clasificar</option>
+            {cats.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.nombre}
+              </option>
+            ))}
+          </select>
+          <span className="text-xs text-muted">
+            Se le aplica a cada foto, video o reel que agregues; después se puede cambiar por
+            elemento.
+          </span>
+        </label>
         <label className="cursor-pointer rounded-full bg-verde px-5 py-2.5 text-sm font-medium text-white hover:bg-verde-dark">
           {subiendo ? "Subiendo…" : "+ Foto(s)"}
           <input
@@ -185,12 +233,29 @@ export default function CarruselAdmin() {
                 {it.tipo === "reel" && (
                   <p className="mt-1 truncate text-xs text-muted">{it.url}</p>
                 )}
-                <input
-                  defaultValue={it.titulo ?? ""}
-                  onBlur={(e) => guardarTitulo(it, e.target.value)}
-                  placeholder="Epígrafe (opcional)"
-                  className="mt-2 w-full max-w-sm rounded-lg border border-line bg-bone px-2 py-1.5 text-sm text-ink outline-none focus:border-verde"
-                />
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <input
+                    defaultValue={it.titulo ?? ""}
+                    onBlur={(e) => guardarTitulo(it, e.target.value)}
+                    placeholder="Epígrafe (opcional)"
+                    className="w-full max-w-sm rounded-lg border border-line bg-bone px-2 py-1.5 text-sm text-ink outline-none focus:border-verde"
+                  />
+                  <select
+                    value={it.categoria_id ?? ""}
+                    onChange={(e) => guardarCategoria(it, e.target.value)}
+                    title="Tipo de trabajo"
+                    className={`rounded-lg border bg-bone px-2 py-1.5 text-sm outline-none focus:border-verde ${
+                      it.categoria_id ? "border-line text-ink" : "border-dashed border-line text-muted"
+                    }`}
+                  >
+                    <option value="">Sin clasificar</option>
+                    {cats.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="flex items-center gap-1">

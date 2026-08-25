@@ -80,10 +80,17 @@ export const getCategorias = cache(async (eje?: EjeCategoria): Promise<Categoria
 export const getCarrusel = cache(async (): Promise<CarruselItem[]> => {
   const { data } = await sb()
     .from("carrusel_items")
-    .select("id, tipo, url, titulo, orden")
+    .select("id, tipo, url, titulo, orden, categoria_id")
     .eq("activo", true)
     .order("orden");
-  return (data ?? []) as CarruselItem[];
+  return (data ?? []).map((r: Record<string, unknown>) => ({
+    id: r.id as string,
+    tipo: r.tipo as CarruselItem["tipo"],
+    url: r.url as string,
+    titulo: txt(r.titulo),
+    orden: (r.orden as number) ?? 0,
+    categoriaId: (r.categoria_id as string) ?? null,
+  }));
 });
 
 export const getTrabajos = cache(async (): Promise<Trabajo[]> => {

@@ -73,6 +73,8 @@ export interface CarruselItem {
   url: string;
   titulo?: string | null;
   orden: number;
+  /** Tipo de trabajo al que pertenece (categorias con eje "tipo_trabajo"). */
+  categoriaId?: string | null;
 }
 
 export const ETIQUETA_EJE: Record<EjeCategoria, string> = {

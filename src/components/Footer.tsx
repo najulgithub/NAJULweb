@@ -107,8 +107,16 @@ export default function Footer({ config }: { config: Config }) {
       </div>
 
       <div className="border-t border-line">
-        <div className="mx-auto max-w-6xl px-5 py-5 text-xs text-muted lg:px-8">
-          © {anio} {config.nombreEmpresa}. Todos los derechos reservados.
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <p>© {anio} {config.nombreEmpresa}. Todos los derechos reservados.</p>
+          <p className="flex gap-4">
+            <Link className="hover:text-verde" href="/privacidad">
+              Política de Privacidad
+            </Link>
+            <Link className="hover:text-verde" href="/terminos">
+              Condiciones del Servicio
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

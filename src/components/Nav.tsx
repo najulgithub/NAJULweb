@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import type { Config } from "@/lib/types";
 import { linkWhatsapp } from "@/lib/wa";
+import { optimizar } from "@/lib/imagen";
 
 const LINKS = [
   { href: "/trabajos", label: "Trabajos" },
@@ -34,7 +35,7 @@ export default function Nav({ config }: { config: Config }) {
           {config.logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={config.logoUrl}
+              src={optimizar(config.logoUrl, 384, 85)}
               alt={config.nombreEmpresa}
               className="h-9 w-auto sm:h-10"
             />

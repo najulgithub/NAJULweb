@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { optimizar } from "@/lib/imagen";
 import type { Metadata } from "next";
 import { getCarrusel, getCategorias, getTrabajos } from "@/lib/datos";
 
@@ -95,7 +96,7 @@ export default async function TrabajosPage({
                       {url && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={url}
+                          src={optimizar(url, 828)}
                           alt={t.titulo}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
@@ -150,7 +151,7 @@ export default async function TrabajosPage({
                       ) : (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={f.url}
+                          src={optimizar(f.url, 828)}
                           alt={f.titulo ?? "Instalación de Najul"}
                           loading="lazy"
                           className="h-full w-full object-cover"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { optimizar } from "@/lib/imagen";
 import type { Config } from "@/lib/types";
 import { linkWhatsapp } from "@/lib/wa";
 
@@ -13,7 +14,7 @@ export default function Footer({ config }: { config: Config }) {
           {config.logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={config.logoUrl}
+              src={optimizar(config.logoUrl, 384, 85)}
               alt={config.nombreEmpresa}
               className="h-12 w-auto"
             />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { optimizar } from "@/lib/imagen";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getConfig, getTrabajos } from "@/lib/datos";
@@ -66,7 +67,7 @@ export default async function TrabajoDetalle({
       {portada && (
         <div className="mt-10 overflow-hidden rounded-3xl border border-line bg-bone">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={portada.url} alt={t.titulo} className="w-full object-cover" />
+          <img src={optimizar(portada.url, 1200)} alt={t.titulo} className="w-full object-cover" />
         </div>
       )}
 
@@ -85,7 +86,7 @@ export default async function TrabajoDetalle({
               )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={im.url}
+                src={optimizar(im.url, 828)}
                 alt={im.alt ?? t.titulo}
                 className="w-full object-cover"
               />

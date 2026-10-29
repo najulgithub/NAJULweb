@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Next 16 sólo permite las calidades declaradas acá (antes valía cualquiera).
+    // Las usa src/lib/imagen.ts: 40 miniatura, 70/72 fotos, 85 logo.
+    qualities: [40, 70, 72, 85],
     remotePatterns: [
       {
         protocol: "https",

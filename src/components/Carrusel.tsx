@@ -3,12 +3,30 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CarruselItem } from "@/lib/types";
 import { embedInstagram } from "@/lib/instagram";
+import { optimizar, miniatura } from "@/lib/imagen";
+
+/** Cuántos slides a cada lado del visible se precargan. */
+const MARGEN = 1;
 
 export default function Carrusel({ items }: { items: CarruselItem[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const idxRef = useRef(0);
   const [index, setIndex] = useState(0);
   const [pausado, setPausado] = useState(false);
+  // Qué slides ya pueden cargar su media. Arranca con los primeros: el resto
+  // espera a estar cerca, así la primera visita no se baja el carrusel entero.
+  const [cargar, setCargar] = useState<Set<number>>(
+    () => new Set([0, 1, 2].filter((i) => i < items.length)),
+  );
+
+  const habilitar = useCallback((i: number) => {
+    setCargar((prev) => {
+      if (prev.has(i)) return prev;
+      const s = new Set(prev);
+      for (let k = i - MARGEN; k <= i + MARGEN; k++) s.add(k);
+      return s;
+    });
+  }, []);
 
   const irA = useCallback(
     (i: number) => {
@@ -19,9 +37,29 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
       if (child) el.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
       idxRef.current = n;
       setIndex(n);
+      habilitar(n);
     },
-    [items.length],
+    [items.length, habilitar],
   );
+
+  // Carga lo que se acerca al borde del visor. El nativo loading="lazy" no
+  // alcanza en una tira horizontal: el navegador las considera a todas cercanas.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (e.isIntersecting) {
+            habilitar(Number((e.target as HTMLElement).dataset.i));
+          }
+        }
+      },
+      { root: el, rootMargin: "0px 300px" },
+    );
+    for (const hijo of Array.from(el.children)) obs.observe(hijo);
+    return () => obs.disconnect();
+  }, [items.length, habilitar]);
 
   // Autoplay: avanza solo, en loop; se pausa con el mouse encima.
   useEffect(() => {
@@ -42,35 +80,43 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
         ref={ref}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {items.map((it) => {
+        {items.map((it, i) => {
           const embed = it.tipo === "reel" ? embedInstagram(it.url) : null;
+          const listo = cargar.has(i);
           return (
             <div
               key={it.id}
+              data-i={i}
               className="relative h-[380px] shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-paper shadow-sm sm:h-[460px] lg:h-[520px]"
             >
               {it.tipo === "reel" && embed ? (
                 <div className="h-full aspect-[9/16]">
-                  <iframe
-                    src={embed}
-                    title={it.titulo ?? "Instagram"}
-                    loading="lazy"
-                    allow="encrypted-media; clipboard-write"
-                    className="h-full w-full"
-                    scrolling="no"
-                  />
+                  {listo && (
+                    <iframe
+                      src={embed}
+                      title={it.titulo ?? "Instagram"}
+                      loading="lazy"
+                      allow="encrypted-media; clipboard-write"
+                      className="h-full w-full"
+                      scrolling="no"
+                    />
+                  )}
                 </div>
               ) : it.tipo === "video" ? (
                 <>
-                  <video
-                    src={it.url}
-                    className="h-full w-auto max-w-none object-cover"
-                    controls
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  />
+                  {listo ? (
+                    <video
+                      src={it.url}
+                      className="h-full w-auto max-w-none object-cover"
+                      controls
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <div className="h-full aspect-[9/16] bg-bone" />
+                  )}
                   {it.titulo && (
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-4">
                       <p className="text-sm font-medium text-white">{it.titulo}</p>
@@ -79,12 +125,16 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
                 </>
               ) : (
                 <>
+                  {/* La miniatura pesa ~1 KB y conserva la proporción, así el
+                      ancho del slide no salta cuando entra la foto grande. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={it.url}
+                    src={listo ? optimizar(it.url) : miniatura(it.url)}
                     alt={it.titulo ?? "Trabajo de Najul"}
-                    loading="lazy"
-                    className="h-full w-auto max-w-none object-cover"
+                    decoding="async"
+                    className={`h-full w-auto max-w-none object-cover transition-opacity duration-500 ${
+                      listo ? "opacity-100" : "opacity-70 blur-sm"
+                    }`}
                   />
                   {it.titulo && (
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-4">

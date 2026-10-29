@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CarruselItem } from "@/lib/types";
 import { embedInstagram } from "@/lib/instagram";
-import { optimizar, miniatura } from "@/lib/imagen";
+import { juego, miniatura } from "@/lib/imagen";
 
 /** Cuántos slides a cada lado del visible se precargan. */
 const MARGEN = 1;
@@ -129,7 +129,10 @@ export default function Carrusel({ items }: { items: CarruselItem[] }) {
                       ancho del slide no salta cuando entra la foto grande. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={listo ? optimizar(it.url) : miniatura(it.url)}
+                    {...(listo
+                      ? juego(it.url, [640, 828, 1080])
+                      : { src: miniatura(it.url) })}
+                    sizes="(min-width: 1024px) 700px, (min-width: 640px) 620px, 510px"
                     alt={it.titulo ?? "Trabajo de Najul"}
                     decoding="async"
                     className={`h-full w-auto max-w-none object-cover transition-opacity duration-500 ${

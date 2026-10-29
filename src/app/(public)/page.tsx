@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { optimizar } from "@/lib/imagen";
+import { juego } from "@/lib/imagen";
 import { getConfig, getCategorias, getCarrusel, getTrabajos } from "@/lib/datos";
 import { linkWhatsapp } from "@/lib/wa";
 import Carrusel from "@/components/Carrusel";
@@ -62,7 +62,8 @@ export default async function Home() {
         {config.heroImagenUrl && (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={optimizar(config.heroImagenUrl, 1920, 70)}
+            {...juego(config.heroImagenUrl, [640, 828, 1080, 1920], 70)}
+            sizes="100vw"
             alt="Cortinas tradicionales a medida en un living de doble altura"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -218,7 +219,8 @@ export default async function Home() {
                       {url && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={optimizar(url, 828)}
+                          {...juego(url, [384, 640, 828])}
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                           alt={t.titulo}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
